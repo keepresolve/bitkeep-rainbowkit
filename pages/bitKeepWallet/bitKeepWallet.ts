@@ -191,6 +191,6 @@ export const bitKeepWallet = ({
     iconUrl: "https://bitkeep.com/favicon.ico",
     id: 'bitKeep',
     installed: !shouldUseWalletConnect ? isBitKeepInjected : undefined,
-    name: 'bitKeep',
+    name: 'BitKeep',
   };
 };
