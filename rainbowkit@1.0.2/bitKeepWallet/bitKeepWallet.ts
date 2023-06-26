@@ -1,4 +1,3 @@
-import type { InjectedConnectorOptions } from '@wagmi/core';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import type { Connector } from 'wagmi/connectors';
 import type { Chain, WindowProvider} from 'wagmi';
@@ -10,6 +9,10 @@ import { getWalletConnectConnector, Wallet } from '@rainbow-me/rainbowkit';
 
 
 
+type InjectedConnectorOptions = {
+  name?: string | ((detectedName: string | string[]) => string);
+  shimDisconnect?: boolean;
+};
 type WalletConnectConnectorConfig = ConstructorParameters<typeof WalletConnectConnector>[0];
 interface bitKeepWalletOptions {
   projectId: string;
