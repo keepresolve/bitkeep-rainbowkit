@@ -35,7 +35,8 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()]
 );
 
-const projectId = '<url:https://cloud.walletconnect.com/sign-in>'; // Apply for projectId
+const projectId = ' <url:https://cloud.walletconnect.com/sign-in>'; // Apply for projectId
+
 
 const { wallets } = getDefaultWallets({
   appName: 'RainbowKit demo',
@@ -47,13 +48,15 @@ const demoAppInfo = {
   appName: 'Rainbowkit Demo',
 };
 
+// wallets[0].wallets.push(bitKeepWallet({ projectId, chains }))
+
 const connectors = connectorsForWallets([
   ...wallets,
   {
     groupName: 'Other',
     wallets: [
-      bitKeepWallet({  chains, walletConnectVersion:"1", walletConnectOptions:{} }),
-      // bitKeepWallet({ projectId, chains }), // defalut  v2
+      // bitKeepWallet({  chains, walletConnectVersion : "1", walletConnectOptions:{} }),
+      bitKeepWallet({ projectId, chains }), // defalut  v2
       argentWallet({ projectId, chains }),
       trustWallet({ projectId, chains }),
       ledgerWallet({ projectId, chains }),

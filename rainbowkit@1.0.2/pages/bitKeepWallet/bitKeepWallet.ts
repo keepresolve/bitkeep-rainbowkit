@@ -128,7 +128,8 @@ export const bitKeepWallet = ({
         ? getWalletConnectConnector({ 
           chains,           
           version: walletConnectVersion,
-          options: walletConnectOptions, projectId
+          options: walletConnectOptions, 
+          projectId
         })
         : new BitkeepConnector({
           chains,
@@ -136,16 +137,11 @@ export const bitKeepWallet = ({
           });
 
       const getUri = async () => {
-        const uri = await getWalletConnectUri(connector, walletConnectVersion);
-        if(walletConnectVersion == "2") return  uri 
-        
-        const walletConnectUrl =  isAndroid()
-        ? `bitkeep://?action=connect&connectType=wc&value=${encodeURIComponent(
-            uri
-          )}`
-        : `https://bkcode.vip?value=${encodeURIComponent(uri)}`;
-        console.log(walletConnectUrl)
-        return walletConnectUrl
+        const uri = await getWalletConnectUri(
+          connector,
+          walletConnectVersion
+        );
+        return  isAndroid()  ? `bitkeep://?action=connect&connectType=wc&value=${encodeURIComponent(uri)}`: `https://bkcode.vip?value=${encodeURIComponent(uri)}` 
       };
       return {
         connector,
@@ -179,7 +175,7 @@ export const bitKeepWallet = ({
         },
         qrCode: shouldUseWalletConnect
           ? {
-              getUri,
+              getUri: async () => getWalletConnectUri(connector, walletConnectVersion),
               instructions: {
                 learnMoreUrl: 'https://study.bitkeep.com',
                 steps: [
@@ -213,6 +209,8 @@ export const bitKeepWallet = ({
         'https://chrome.google.com/webstore/detail/bitkeep-crypto-nft-wallet/jiidiaalihmmhddjgbnbgdfflelocpak',
       ios: 'https://apps.apple.com/app/bitkeep/id1395301115',
       qrCode: 'https://bitkeep.com/en/download',
+      mobile:"https://bitkeep.com/en/download?type=2",
+      chrome:"https://chrome.google.com/webstore/detail/bitkeep-crypto-nft-wallet/jiidiaalihmmhddjgbnbgdfflelocpak"
     },
     iconAccent: '#f6851a',
     iconBackground: '#fff',
