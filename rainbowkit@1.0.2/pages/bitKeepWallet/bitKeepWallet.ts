@@ -137,11 +137,15 @@ export const bitKeepWallet = ({
 
       const getUri = async () => {
         const uri = await getWalletConnectUri(connector, walletConnectVersion);
-        return isAndroid()
-          ? `bitkeep://?action=connect&connectType=wc&value=${encodeURIComponent(
-              uri
-            )}`
-          : `https://bkcode.vip?value=${encodeURIComponent(uri)}`;
+        if(walletConnectVersion == "2") return  uri 
+        
+        const walletConnectUrl =  isAndroid()
+        ? `bitkeep://?action=connect&connectType=wc&value=${encodeURIComponent(
+            uri
+          )}`
+        : `https://bkcode.vip?value=${encodeURIComponent(uri)}`;
+        console.log(walletConnectUrl)
+        return walletConnectUrl
       };
       return {
         connector,
