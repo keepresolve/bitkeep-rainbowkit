@@ -15,10 +15,10 @@ type InjectedConnectorOptions = {
 };
 type WalletConnectConnectorConfig = ConstructorParameters<typeof WalletConnectConnector>[0];
 interface bitKeepWalletOptions {
-  projectId: string;
+  projectId ?: string;
   chains: Chain[];
   shimDisconnect?: boolean;
-  walletConnectVersion?: '2';
+  walletConnectVersion?: '2' | '1';
   walletConnectOptions?: WalletConnectConnectorConfig['options'];
 }
 type BitKeepConnectorOptions = Pick< InjectedConnectorOptions, 'shimDisconnect' > 
