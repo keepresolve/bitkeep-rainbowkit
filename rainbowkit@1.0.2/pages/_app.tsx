@@ -21,7 +21,11 @@ import {
   goerli,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
-import { bitKeepWallet } from "./bitKeepWallet/bitKeepWallet"
+import { bitKeepWallet } from "../bitKeepWallet/bitKeepWallet"
+
+
+
+
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -58,7 +62,7 @@ wallets.push( {
     trustWallet({ projectId, chains }),
     ledgerWallet({ projectId, chains }),
   ],
-},)
+})
 const connectors = connectorsForWallets(wallets);
 
 const wagmiConfig = createConfig({
