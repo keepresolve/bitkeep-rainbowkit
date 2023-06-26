@@ -1,17 +1,22 @@
-import '../styles/globals.css';
-import '@rainbow-me/rainbowkit/styles.css';
-import { getDefaultWallets, connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import type { AppProps } from 'next/app';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
+import "../styles/globals.css";
+import "@rainbow-me/rainbowkit/styles.css";
+// Import RainbowKit and wagmi.
+import {
+  getDefaultWallets,
+  connectorsForWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
+import type { AppProps } from "next/app";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { arbitrum, goerli, mainnet, optimism, polygon } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
 import {
   injectedWallet,
   rainbowWallet,
   walletConnectWallet,
-  metaMaskWallet
-} from '@rainbow-me/rainbowkit/wallets';
-import { bitKeepWallet } from './bitKeepWallet/bitKeepWallet';
+  metaMaskWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import { bitKeepWallet } from "./bitKeepWallet/bitKeepWallet";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -19,21 +24,22 @@ const { chains, provider, webSocketProvider } = configureChains(
     polygon,
     optimism,
     arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [goerli] : []),
   ],
   [publicProvider()]
 );
 
+console.log(chains, "chainschainschainschains");
 
 const connectors = connectorsForWallets([
   {
-    groupName: 'Recommended',
+    groupName: "Recommended",
     wallets: [
       injectedWallet({ chains }),
       rainbowWallet({ chains }),
       walletConnectWallet({ chains }),
       bitKeepWallet({ chains }),
-      metaMaskWallet( { chains } )
+      metaMaskWallet({ chains }),
     ],
   },
 ]);

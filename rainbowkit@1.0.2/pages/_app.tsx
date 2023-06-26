@@ -52,8 +52,8 @@ const connectors = connectorsForWallets([
   {
     groupName: 'Other',
     wallets: [
-      // bitKeepWallet({  chains, walletConnectVersion:"1", walletConnectOptions:{} }),
-      bitKeepWallet({ projectId, chains }), // defalut  v2
+      bitKeepWallet({  chains, walletConnectVersion:"1", walletConnectOptions:{} }),
+      // bitKeepWallet({ projectId, chains }), // defalut  v2
       argentWallet({ projectId, chains }),
       trustWallet({ projectId, chains }),
       ledgerWallet({ projectId, chains }),
