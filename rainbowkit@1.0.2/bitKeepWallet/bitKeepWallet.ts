@@ -14,14 +14,22 @@ type InjectedConnectorOptions = {
   shimDisconnect?: boolean;
 };
 type WalletConnectConnectorConfig = ConstructorParameters<typeof WalletConnectConnector>[0];
-interface bitKeepWalletOptions {
+interface BitKeepWalletOptions {
   projectId ?: string;
   chains: Chain[];
   shimDisconnect?: boolean;
-  walletConnectVersion?: '2' | '1';
+  walletConnectVersion?: '2';
   walletConnectOptions?: WalletConnectConnectorConfig['options'];
 }
+interface BitKeepWalletLegacyOptions {
+  projectId?: string;
+  chains: Chain[];
+  walletConnectVersion: '1';
+  walletConnectOptions?: WalletConnectConnectorConfig['options'];
+}
+
 type BitKeepConnectorOptions = Pick< InjectedConnectorOptions, 'shimDisconnect' > 
+
 
 
 
@@ -121,7 +129,8 @@ export const bitKeepWallet = ({
   walletConnectOptions,
   walletConnectVersion = '2',
   ...options
-}: bitKeepWalletOptions): Wallet => {
+}: (BitKeepWalletLegacyOptions | BitKeepWalletOptions) &
+BitKeepConnectorOptions): Wallet => {
   const isBitKeepInjected =
     typeof window !== 'undefined' &&
     typeof window.bitkeep !== 'undefined' &&
