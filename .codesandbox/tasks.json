@@ -1,0 +1,21 @@
+{
+  // These tasks will run in order when initializing your CodeSandbox project.
+  "setupTasks": [],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "cd rainbowkit@1.0.2 && yarn && yarn run dev": {
+      "name": "cd rainbowkit@1.0.2 && yarn && yarn run dev",
+      "command": "cd rainbowkit@1.0.2 && yarn && yarn run dev",
+      "runAtStart": true
+    },
+    "cd ./rainbowkit@1.0.2 && pnpm install && pnpm run dev": {
+      "name": "cd ./rainbowkit@1.0.2 && pnpm install && pnpm run dev",
+      "command": "cd ./rainbowkit@1.0.2 && pnpm install && pnpm run dev"
+    },
+    "cd ./rainbowkit@1.0.2 && pnpm install && npm run build && npm run start": {
+      "name": "cd ./rainbowkit@1.0.2 && pnpm install && npm run build && npm run start",
+      "command": "cd ./rainbowkit@1.0.2 && pnpm install && npm run build && npm run start"
+    }
+  }
+}
