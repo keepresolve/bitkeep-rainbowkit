@@ -1,45 +1,49 @@
 import type { InjectedConnectorOptions } from '@wagmi/core';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import type { Connector } from 'wagmi/connectors';
+import type { Chain, WindowProvider} from 'wagmi';
+export type { Wallet } from  '@rainbow-me/rainbowkit';
+
 import { InjectedConnector } from 'wagmi/connectors/injected';
-export type { Wallet} from  '@rainbow-me/rainbowkit';
-import { getWalletConnectConnector } from '@rainbow-me/rainbowkit';
+import { getWalletConnectConnector, Wallet } from '@rainbow-me/rainbowkit';
+
+
+
+
+type WalletConnectConnectorConfig = ConstructorParameters<typeof WalletConnectConnector>[0];
+interface bitKeepWalletOptions {
+  projectId: string;
+  chains: Chain[];
+  shimDisconnect?: boolean;
+  walletConnectVersion?: '2';
+  walletConnectOptions?: WalletConnectConnectorConfig['options'];
+}
+type BitKeepConnectorOptions = Pick< InjectedConnectorOptions, 'shimDisconnect' > 
+
+
+
+
+
 
 export function isAndroid(): boolean {
   return (
     typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent)
   );
 }
-
-export interface bitKeepWalletOptions {
-  projectId: string;
-  chains: [];
-  shimDisconnect?: boolean;
-  walletConnectVersion?: '2';
-  walletConnectOptions?: WalletConnectConnectorOptions;
-}
-
-declare global {
-  interface Window {
-    bitkeep: any;
-  }
-}
-
-export type InjectedConnectorOptions = {
-  name?: string | ((detectedName: string | string[]) => string)
-  getProvider?: () => NonNullable<typeof window['ethereum']> | undefined
-  shimChainChangedDisconnect?: boolean
-  shimDisconnect?: boolean
-}
 class BitkeepConnector extends InjectedConnector {
   id: string;
   ready: boolean;
-  provider: NonNullable<typeof window['ethereum']>;
-  constructor({ chains = [], options_ = {} }: InjectedConnectorOptions) {
+  provider?: WindowProvider;
+  constructor({ chains = [], options:options_ }: {
+    chains?: Chain[]
+    options?: BitKeepConnectorOptions
+  } = {}) {
     const options = {
       name: 'BitKeep',
       ...options_,
     };
     super({ chains, options });
+
 
     this.id = 'Bitkeep';
     this.ready =
@@ -54,7 +58,7 @@ class BitkeepConnector extends InjectedConnector {
     }
     return this.provider;
   }
-  getReady(ethereum: NonNullable<typeof window['ethereum']>) {
+  getReady(ethereum: WindowProvider) {
     if (!ethereum || !ethereum.isBitKeep ) return;
     // Brave tries to make itself look like BitKeep
     // Could also try RPC `web3_clientVersion` if following is unreliable
@@ -63,13 +67,13 @@ class BitkeepConnector extends InjectedConnector {
     if (ethereum.isTokenary) return;
     return ethereum;
   }
-  findProvider(ethereum: NonNullable<typeof window['ethereum']>) {
+  findProvider(ethereum: WindowProvider) {
     if (ethereum?.providers) return ethereum.providers.find(this.getReady);
     return this.getReady(ethereum);
   }
 }
 
-function isBitKeep(ethereum: NonNullable<typeof window['ethereum']>) {
+function isBitKeep(ethereum:WindowProvider) {
   // Logic borrowed from wagmi's bitKeepConnector
   // https://github.com/tmm/wagmi/blob/main/packages/core/src/connectors/bitKeep.ts
   const isBitKeep = Boolean(ethereum.isBitKeep);
@@ -114,7 +118,7 @@ export const bitKeepWallet = ({
   walletConnectOptions,
   walletConnectVersion = '2',
   ...options
-}: bitKeepWalletOptions) => {
+}: bitKeepWalletOptions): Wallet => {
   const isBitKeepInjected =
     typeof window !== 'undefined' &&
     typeof window.bitkeep !== 'undefined' &&
@@ -147,6 +151,7 @@ export const bitKeepWallet = ({
         connector,
         extension: {
           instructions: {
+            learnMoreUrl: 'https://study.bitkeep.com',
             steps: [
               {
                 description:
@@ -168,7 +173,7 @@ export const bitKeepWallet = ({
               },
             ],
           },
-          learnMoreUrl: 'https://study.bitkeep.com',
+      
         },
         mobile: {
           getUri: shouldUseWalletConnect ? getUri : undefined,

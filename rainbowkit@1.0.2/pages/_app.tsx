@@ -49,20 +49,17 @@ const demoAppInfo = {
 };
 
 // wallets[0].wallets.push(bitKeepWallet({ projectId, chains }))
-
-const connectors = connectorsForWallets([
-  ...wallets,
-  {
-    groupName: 'Other',
-    wallets: [
-      // bitKeepWallet({  chains, walletConnectVersion : "1", walletConnectOptions:{} }),
-      bitKeepWallet({ projectId, chains }), // defalut  v2
-      argentWallet({ projectId, chains }),
-      trustWallet({ projectId, chains }),
-      ledgerWallet({ projectId, chains }),
-    ],
-  },
-]);
+wallets.push( {
+  groupName: 'Other',
+  wallets: [
+    // bitKeepWallet({  chains, walletConnectVersion : "1", walletConnectOptions:{} }),
+    bitKeepWallet({ projectId, chains }), // defalut  v2
+    argentWallet({ projectId, chains }),
+    trustWallet({ projectId, chains }),
+    ledgerWallet({ projectId, chains }),
+  ],
+},)
+const connectors = connectorsForWallets(wallets);
 
 const wagmiConfig = createConfig({
   autoConnect: true,
