@@ -39,7 +39,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()]
 );
 
-const projectId = ' <url:https://cloud.walletconnect.com/sign-in>'; // Apply for projectId
+const projectId = 'a0197dc45a94a76108f49acc45edf93e'; // Apply for projectId
 
 
 const { wallets } = getDefaultWallets({
@@ -56,8 +56,8 @@ const demoAppInfo = {
 wallets.push( {
   groupName: 'Other',
   wallets: [
-    bitKeepWallet({  chains, walletConnectVersion : "1" }),
-    // bitKeepWallet({ projectId, chains }), // defalut  v2
+    // bitKeepWallet({  chains, walletConnectVersion : "1" }),
+    bitKeepWallet({ projectId, chains }), // defalut  v2
     argentWallet({ projectId, chains }),
     trustWallet({ projectId, chains }),
     ledgerWallet({ projectId, chains }),

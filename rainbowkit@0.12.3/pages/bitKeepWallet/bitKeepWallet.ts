@@ -151,7 +151,10 @@ export const bitKeepWallet = ({
         },
         qrCode: shouldUseWalletConnect
           ? {
-              getUri,
+              getUri: async ()=>{
+                const { uri } = (await connector.getProvider()).connector;
+                return uri
+              },
               instructions: {
                 learnMoreUrl: 'https://study.bitkeep.com',
                 steps: [
