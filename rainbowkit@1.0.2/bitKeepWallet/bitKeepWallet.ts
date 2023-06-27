@@ -195,7 +195,10 @@ BitKeepConnectorOptions): Wallet => {
         },
         qrCode: shouldUseWalletConnect
           ? {
-              getUri,
+              getUri:async ()=> await getWalletConnectUri(
+                connector,
+                walletConnectVersion
+              ),
               instructions: {
                 learnMoreUrl: 'https://study.bitkeep.com',
                 steps: [
