@@ -157,10 +157,7 @@ BitKeepConnectorOptions): Wallet => {
           connector,
           walletConnectVersion
         );
-        const r= isAndroid()  ? `bitkeep://?action=connect&connectType=wc&value=${encodeURIComponent(uri)}`: `https://bkcode.vip?value=${encodeURIComponent(uri)}` 
-        console.log(r)
-        
-        return  r
+        return  isAndroid()  ?  uri : `https://bkcode.vip/wc?uri=${encodeURIComponent(uri)}` 
       };
       return {
         connector,
@@ -195,7 +192,7 @@ BitKeepConnectorOptions): Wallet => {
         },
         qrCode: shouldUseWalletConnect
           ? {
-              getUri:async ()=> await getWalletConnectUri(
+              getUri: async ()=> await getWalletConnectUri(
                 connector,
                 walletConnectVersion
               ),
