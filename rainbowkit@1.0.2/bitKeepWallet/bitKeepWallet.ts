@@ -157,7 +157,8 @@ BitKeepConnectorOptions): Wallet => {
           connector,
           walletConnectVersion
         );
-        return  isAndroid()  ?  uri : `https://bkcode.vip/wc?uri=${encodeURIComponent(uri)}` 
+        // return  `bitkeep://wc?uri=${encodeURIComponent(uri)}`
+        return  isAndroid()  ?  uri :  `bitkeep://wc?uri=${encodeURIComponent(uri)}`
       };
       return {
         connector,
